@@ -1,26 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { getMetrics } from './getMetrics'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+class App extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      metrics: {
+      }
+    }
+  }
+
+  componentDidMount() {
+    getMetrics().then((metrics) => {
+      this.setState({ metrics })
+    });
+  }
+  render() {
+    return (
+      <div className="App">
+        <header>Website metrics</header>
+        <h1>
+          <ul>
+            {Object.entries(this.state.metrics).map(metric =><li>{`${metric[0]} : ${metric[1]}`}</li>)}
+          </ul>
+        </h1>
+       </div>
+       );
+      }
+    }
 
 export default App;
